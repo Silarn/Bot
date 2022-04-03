@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
-// @version      8
+// @version      9
 // @description  /r/place bot
 // @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
@@ -20,7 +20,7 @@ var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
 
-const VERSION = 8
+const VERSION = 9
 var UPDATE_PENDING = false;
 
 const COLOR_MAPPINGS = {
@@ -81,7 +81,7 @@ const COLOR_MAPPINGS = {
 
 function shuffleWeighted(array) {
 	for (const item of array) {
-		item.rndPriority = Math.round(placeOrders.priorities[item.priority] * Math.random());
+		item.rndPriority = placeOrders.priorities[item.priority] * Math.random();
 	}
 	array.sort((a, b) => b.rndPriority - a.rndPriority);
 }
