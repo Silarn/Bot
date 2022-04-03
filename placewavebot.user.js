@@ -117,7 +117,7 @@ async function attemptPlace() {
 		if (currentColorId == colorId) continue;
 
 		Toastify({
-			text: `Pixel wird gesetzt auf ${x}, ${y}...`,
+			text: `Pixel is set to ${x}, ${y}...`,
 			duration: 10000
 		}).showToast();
 
@@ -135,7 +135,7 @@ async function attemptPlace() {
 		const minutes = Math.floor(waitFor / (1000 * 60))
 		const seconds = Math.floor((waitFor / 1000) % 60)
 		Toastify({
-			text: `Warten auf Abkühlzeit ${minutes}:${seconds} bis ${new Date(nextAvailablePixelTimestamp).toLocaleTimeString()}`,
+			text: `Waiting for cool down time ${minutes}:${seconds} until ${new Date(nextAvailablePixelTimestamp).toLocaleTimeString()}`,
 			duration: waitFor
 		}).showToast();
 		setTimeout(attemptPlace, waitFor);
@@ -165,7 +165,7 @@ function updateOrders() {
 		if (data?.version !== VERSION && !UPDATE_PENDING) {
 			UPDATE_PENDING = true
 			Toastify({
-				text: `NEUE VERSION VERFÜGBAR! Aktualisiere hier https://github.com/Silarn/Bot/raw/main/placewavebot.user.js`,
+				text: `NEW VERSION AVAILABLE! Update here https://github.com/Silarn/Bot/raw/main/placewavebot.user.js`,
 				duration: -1,
 				onClick: () => {
 					// Tapermonkey captures this and opens a new tab
