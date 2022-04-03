@@ -148,7 +148,7 @@ async function attemptPlace() {
 }
 
 function updateOrders() {
-	fetch(`https://silarn.github.io/pixel/pixel.json`, {cache: "no-store"}).then(async (response) => {
+	fetch(`https://raw.githubusercontent.com/Silarn/pixel/main/pixel.json`, {cache: "no-store"}).then(async (response) => {
 		if (!response.ok) return console.warn('Pixel order data cannot be loaded!');
 		const data = await response.json();
 
