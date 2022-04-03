@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
-// @version      6
+// @version      7
 // @description  /r/place bot
 // @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
@@ -20,31 +20,39 @@ var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
 
-const VERSION = 6
+const VERSION = 7
 var UPDATE_PENDING = false;
 
 const COLOR_MAPPINGS = {
+	'#6D001A': 0,
 	'#BE0039': 1,
 	'#FF4500': 2,
 	'#FFA800': 3,
 	'#FFD635': 4,
+	'#FFF8B8': 5,
 	'#00A368': 6,
 	'#00CC78': 7,
 	'#7EED56': 8,
 	'#00756F': 9,
 	'#009EAA': 10,
+	'#00CCC0': 11,
 	'#2450A4': 12,
 	'#3690EA': 13,
 	'#51E9F4': 14,
 	'#493AC1': 15,
 	'#6A5CFF': 16,
+	'#94B3FF': 17,
 	'#811E9F': 18,
 	'#B44AC0': 19,
+	'#E4ABFF': 20,
+	'#DE107F': 21,
 	'#FF3881': 22,
 	'#FF99AA': 23,
 	'#6D482F': 24,
 	'#9C6926': 25,
+	'#FFB470': 26,
 	'#000000': 27,
+	'#515252': 28,
 	'#898D90': 29,
 	'#D4D7D9': 30,
 	'#FFFFFF': 31
@@ -53,7 +61,7 @@ const COLOR_MAPPINGS = {
 (async function () {
 	GM_addStyle(GM_getResourceText('TOASTIFY_CSS'));
 	canvas.width = 2000;
-	canvas.height = 1000;
+	canvas.height = 2000;
 	canvas = document.body.appendChild(canvas);
 
 	Toastify({
@@ -93,6 +101,9 @@ async function attemptPlace() {
 	try {
 		ctx = await getCanvasFromUrl(await getCurrentImageUrl('0'), canvas, 0, 0);
 		ctx = await getCanvasFromUrl(await getCurrentImageUrl('1'), canvas, 1000, 0)
+		ctx = await getCanvasFromUrl(await getCurrentImageUrl('2'), canvas, 0, 1000)
+		ctx = await getCanvasFromUrl(await getCurrentImageUrl('3'), canvas, 1000, 1000)
+
 	} catch (e) {
 		console.warn('Error getting artboard:', e);
 		Toastify({
@@ -178,6 +189,10 @@ function updateOrders() {
 	}).catch((e) => console.warn('Pixel order data cannot be loaded!', e));
 }
 
+
+function getCanvasId(x,y) {
+	return (x <1000) + (y<1000)*2
+}
 /**
  * Places a pixel on the canvas, returns the "nextAvailablePixelTimestamp", if succesfull
  * @param x
@@ -199,7 +214,7 @@ async function place(x, y, color) {
 							'y': y % 1000
 						},
 						'colorIndex': color,
-						'canvasIndex': (x > 999 ? 1 : 0)
+						'canvasIndex': getCanvasId(x,y)
 					}
 				}
 			},
