@@ -1,11 +1,7 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
-<<<<<<< HEAD
 // @version      5
-=======
-// @version      2
->>>>>>> aeb60ab (Update version)
 // @description  /r/place bot
 // @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
@@ -163,7 +159,7 @@ function updateOrders() {
 				pixelCount += data.structures[structureName].pixels.length;
 			}
 			Toastify({
-				text: `Neue Strukturen geladen. Bilder: ${structureCount} - Pixels: ${pixelCount}.`,
+				text: `New structures loaded. Images: ${structureCount} - Pixels: ${pixelCount}.`,
 				duration: 10000
 			}).showToast();
 		}
