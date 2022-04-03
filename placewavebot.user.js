@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
-// @version      5
+// @version      6
 // @description  /r/place bot
 // @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
@@ -20,7 +20,7 @@ var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
 
-const VERSION = 5
+const VERSION = 6
 var UPDATE_PENDING = false;
 
 const COLOR_MAPPINGS = {
