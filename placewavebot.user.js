@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
-// @version      7
+// @version      8
 // @description  /r/place bot
 // @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
@@ -20,7 +20,7 @@ var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
 
-const VERSION = 7
+const VERSION = 8
 var UPDATE_PENDING = false;
 
 const COLOR_MAPPINGS = {
@@ -191,7 +191,7 @@ function updateOrders() {
 
 
 function getCanvasId(x,y) {
-	return (x <1000) + (y<1000)*2
+	return (x > 1000) + (y > 1000)*2
 }
 /**
  * Places a pixel on the canvas, returns the "nextAvailablePixelTimestamp", if succesfull
