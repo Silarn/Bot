@@ -1,16 +1,17 @@
 // ==UserScript==
-// @name         PlaceDE Bot
-// @namespace    https://github.com/PlaceDE/Bot
-// @version      14
+// @name         PlaceWave Bot
+// @namespace    https://github.com/Silarn/Bot
+// @version      5
 // @description  /r/place bot
+// @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
 // @match        https://www.reddit.com/r/place/*
 // @match        https://new.reddit.com/r/place/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
 // @require	     https://cdn.jsdelivr.net/npm/toastify-js
 // @resource     TOASTIFY_CSS https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css
-// @updateURL    https://github.com/PlaceDE/Bot/raw/main/placedebot.user.js
-// @downloadURL  https://github.com/PlaceDE/Bot/raw/main/placedebot.user.js
+// @updateURL    https://github.com/Silarn/Bot/raw/main/placewavebot.user.js
+// @downloadURL  https://github.com/Silarn/Bot/raw/main/placewavebot.user.js
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -21,7 +22,7 @@ var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
 
-const VERSION = 14
+const VERSION = 5
 var UPDATE_PENDING = false;
 
 const COLOR_MAPPINGS = {
@@ -58,12 +59,12 @@ const COLOR_MAPPINGS = {
 	canvas = document.body.appendChild(canvas);
 
 	Toastify({
-		text: 'Abfrage des Zugriffstokens...',
+		text: 'Querying access token...',
 		duration: 10000
 	}).showToast();
 	accessToken = await getAccessToken();
 	Toastify({
-		text: 'Zugriffstoken eingesammelt!',
+		text: 'Access token saved!',
 		duration: 10000
 	}).showToast();
 
@@ -95,9 +96,9 @@ async function attemptPlace() {
 		ctx = await getCanvasFromUrl(await getCurrentImageUrl('0'), canvas, 0, 0);
 		ctx = await getCanvasFromUrl(await getCurrentImageUrl('1'), canvas, 1000, 0)
 	} catch (e) {
-		console.warn('Fehler beim Abrufen der Zeichenfläche:', e);
+		console.warn('Error getting artboard:', e);
 		Toastify({
-			text: 'Fehler beim Abrufen der Zeichenfläche. Neuer Versuch in 15 Sekunden...',
+			text: 'Error getting artboard. Try again in 15 seconds...',
 			duration: 10000
 		}).showToast();
 		setTimeout(attemptPlace, 15000); // probeer opnieuw in 15sec.
@@ -147,8 +148,8 @@ async function attemptPlace() {
 }
 
 function updateOrders() {
-	fetch(`https://placede.github.io/pixel/pixel.json`, {cache: "no-store"}).then(async (response) => {
-		if (!response.ok) return console.warn('Bestellungen können nicht geladen werden!');
+	fetch(`https://silarn.github.io/pixel/pixel.json`, {cache: "no-store"}).then(async (response) => {
+		if (!response.ok) return console.warn('Pixel order data cannot be loaded!');
 		const data = await response.json();
 
 		if (JSON.stringify(data) !== JSON.stringify(placeOrders)) {
@@ -166,17 +167,17 @@ function updateOrders() {
 		if (data?.version !== VERSION && !UPDATE_PENDING) {
 			UPDATE_PENDING = true
 			Toastify({
-				text: `NEUE VERSION VERFÜGBAR! Aktualisiere hier https://github.com/placeDE/Bot/raw/main/placedebot.user.js`,
+				text: `NEUE VERSION VERFÜGBAR! Aktualisiere hier https://github.com/Silarn/Bot/raw/main/placewavebot.user.js`,
 				duration: -1,
 				onClick: () => {
 					// Tapermonkey captures this and opens a new tab
-					window.location = 'https://github.com/placeDE/Bot/raw/main/placedebot.user.js'
+					window.location = 'https://github.com/Silarn/Bot/raw/main/placewavebot.user.js'
 				}
 			}).showToast();
 
 		}
 		placeOrders = data;
-	}).catch((e) => console.warn('Bestellungen können nicht geladen werden!', e));
+	}).catch((e) => console.warn('Pixel order data cannot be loaded!', e));
 }
 
 /**
@@ -240,7 +241,7 @@ async function place(x, y, color) {
 	const data = await response.json()
 	if (data.errors != undefined) {
 		Toastify({
-			text: 'Fehler beim Platzieren des Pixels, warte auf Abkühlzeit...',
+			text: 'Error placing pixel, waiting for cool down time...',
 			duration: 10000
 		}).showToast();
 		return data.errors[0].extensions?.nextAvailablePixelTs
