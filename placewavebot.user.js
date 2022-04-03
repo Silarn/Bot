@@ -1,7 +1,11 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
+<<<<<<< HEAD
 // @version      5
+=======
+// @version      2
+>>>>>>> aeb60ab (Update version)
 // @description  /r/place bot
 // @author       Silarn
 // @author       NoahvdAa, reckter, SgtChrome, nama17
