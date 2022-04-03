@@ -117,7 +117,7 @@ async function attemptPlace() {
 		if (currentColorId == colorId) continue;
 
 		Toastify({
-			text: `Pixel is set to ${x}, ${y}...`,
+			text: `Placing pixel at ${x}, ${y}...`,
 			duration: 10000
 		}).showToast();
 
