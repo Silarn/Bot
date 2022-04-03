@@ -16,8 +16,6 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-// Sorry voor de rommelige code, haast en clean gaatn iet altijd samen ;)
-
 var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
