@@ -7,8 +7,10 @@ The bot for The Wave! This bot automatically fetches [plans](https://github.com/
 Check that new pixels can be placed and this is not on cooldown
 
 1. Install the browser extension [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/).
-2. Click on this link: [https://github.com/Silarn/Bot/raw/main/placewavebot.user.js](https://github.com/Silarn/Bot/raw/main/placewavebot.user.js). If all goes well, Tampermonkey will offer to install a user script. Click **Install**.
-3. Reload the **r/place** tab. If all went well, you should see "Ask for access token..." at the top right of the screen. The bot is now active and will use these notifications at the top right for ongoing information.
+2. Install the browser extension [CORS Unblock](https://chrome.google.com/webstore/detail/cors-unblock/lfhmikememgdcahcdlaciloancbhjino/related?hl=en) or [for Firefox](https://addons.mozilla.org/en-US/firefox/addon/cors-unblock/)
+3. Click on this link: [https://github.com/Silarn/Bot/raw/main/placewavebot.user.js](https://github.com/Silarn/Bot/raw/main/placewavebot.user.js). If all goes well, Tampermonkey will offer to install a user script. Click **Install**.
+4. In your **r/place** tab, make sure to toggle on the CORS Unblock extension -> ![cors.png](cors.png)
+5. Reload the **r/place** tab. If all went well, you should see "Ask for access token..." at the top right of the screen. The bot is now active and will use these notifications at the top right for ongoing information.
 
 ## Bot weaknesses
 
