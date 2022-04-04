@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name         PlaceWave Bot
 // @namespace    https://github.com/Silarn/Bot
-// @version      9
+// @version      10
 // @description  /r/place bot
 // @author       Silarn
-// @author       NoahvdAa, reckter, SgtChrome, nama17
 // @match        https://www.reddit.com/r/place/*
 // @match        https://new.reddit.com/r/place/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
@@ -20,7 +19,7 @@ var placeOrders = [];
 var accessToken;
 var canvas = document.createElement('canvas');
 
-const VERSION = 9
+const VERSION = 10;
 var UPDATE_PENDING = false;
 
 const COLOR_MAPPINGS = {
@@ -58,6 +57,9 @@ const COLOR_MAPPINGS = {
 	'#FFFFFF': 31
 };
 
+const PLACE_URL = 'https://gql-realtime-2.reddit.com/query';
+const UPDATE_URL = 'https://github.com/Silarn/Bot/raw/main/placewavebot.user.js';
+
 (async function () {
 	GM_addStyle(GM_getResourceText('TOASTIFY_CSS'));
 	canvas.width = 2000;
@@ -66,12 +68,21 @@ const COLOR_MAPPINGS = {
 
 	Toastify({
 		text: 'Querying access token...',
-		duration: 10000
+		duration: 10000,
+		gravity: "bottom",
+		style: {
+			background: '#C6C6C6',
+			color: '#111'
+		},
 	}).showToast();
 	accessToken = await getAccessToken();
 	Toastify({
 		text: 'Access token saved!',
-		duration: 10000
+		duration: 10000,
+		gravity: "bottom",
+		style: {
+			background: '#92E234',
+		},
 	}).showToast();
 
 	setInterval(updateOrders, 5 * 60 * 1000); // Update orders elke vijf minuten.
@@ -176,11 +187,11 @@ function updateOrders() {
 		if (data?.version !== VERSION && !UPDATE_PENDING) {
 			UPDATE_PENDING = true
 			Toastify({
-				text: `NEW VERSION AVAILABLE! Update here https://github.com/Silarn/Bot/raw/main/placewavebot.user.js`,
+				text: `NEW VERSION AVAILABLE! Update here ${UPDATE_URL}`,
 				duration: -1,
 				onClick: () => {
 					// Tapermonkey captures this and opens a new tab
-					window.location = 'https://github.com/Silarn/Bot/raw/main/placewavebot.user.js'
+					window.location = UPDATE_URL
 				}
 			}).showToast();
 
@@ -191,7 +202,7 @@ function updateOrders() {
 
 
 function getCanvasId(x,y) {
-	return (x > 1000) + (y > 1000)*2
+	return (x > 1000) + (y > 1000) * 2;
 }
 /**
  * Places a pixel on the canvas, returns the "nextAvailablePixelTimestamp", if succesfull
@@ -201,7 +212,7 @@ function getCanvasId(x,y) {
  * @returns {Promise<number>}
  */
 async function place(x, y, color) {
-	const response = await fetch('https://gql-realtime-2.reddit.com/query', {
+	const response = await fetch(PLACE_URL, {
 		method: 'POST',
 		body: JSON.stringify({
 			'operationName': 'setPixel',
@@ -254,11 +265,23 @@ async function place(x, y, color) {
 	const data = await response.json()
 	if (data.errors != undefined) {
 		Toastify({
-			text: 'Error placing pixel, waiting for cool down time...',
-			duration: 10000
+			text: 'Still on cooldown, unable to place pixel...',
+			duration: 10000,
+			gravity: "bottom",
+			style: {
+				background: '#ED001C',
+			},
 		}).showToast();
 		return data.errors[0].extensions?.nextAvailablePixelTs
 	}
+	Toastify({
+		text: `Pixel placed at x:${x} y:${y}`,
+		duration: 10000,
+		gravity: "bottom",
+		style: {
+			background: '#92E234',
+		},
+	}).showToast();
 	return data?.data?.act?.data?.[0]?.data?.nextAvailablePixelTimestamp
 }
 
@@ -268,8 +291,7 @@ async function getAccessToken() {
 	const response = await fetch(url);
 	const responseText = await response.text();
 
-	// TODO: ew
-	return responseText.split('\"accessToken\":\"')[1].split('"')[0];
+	return responseText.match(/"accessToken"\s*:\s*"([\w-]+)"/)[1];
 }
 
 async function getCurrentImageUrl(id = '0') {
@@ -308,6 +330,12 @@ async function getCurrentImageUrl(id = '0') {
 										__typename
 										name
 										timestamp
+									}
+									... on DiffFrameMessageData {
+										__typename
+										name
+										currentTimestamp
+										previousTimestamp
 									}
 								}
 								__typename
